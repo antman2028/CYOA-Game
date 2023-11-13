@@ -25,3 +25,39 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+@import url('https://fonts.googleapis.com/css2?family=PT+Serif:wght@700&family=Playfair+Display:ital,wght@1,500&display=swap');
+
+.home-title{
+  font-family: 'PT Serif', serif;
+  font-size: 4rem;
+  font-weight: 10000;
+    transition: all 0.3s ease;
+
+}
+.home-button:hover{
+  color: rgb(var(--foreground-rgb));
+  text-shadow:
+          0 0 2px #fff,
+    0 0 2px #fff,
+    0 0 10px #fff;
+    transition: all 0.3s ease;
+}
+
+.home-button:hover span{
+    transform: translateX(10px);
+    transition: all 0.3s ease;
+}
+.home-button span{
+    position: relative;
+    transition: all 0.3s ease;
+}
+.home-button{
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 10000;
+    transition: all 0.3s ease;
+
+}
+
+
