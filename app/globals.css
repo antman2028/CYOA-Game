@@ -16,14 +16,10 @@
   }
 }
 
+
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background: #0d0d0d;
 }
 
 @import url('https://fonts.googleapis.com/css2?family=PT+Serif:wght@700&family=Playfair+Display:ital,wght@1,500&display=swap');
@@ -44,20 +40,24 @@ body {
     transition: all 0.3s ease;
 }
 
-.home-button:hover span{
-    transform: translateX(10px);
-    transition: all 0.3s ease;
-}
-.home-button span{
-    position: relative;
-    transition: all 0.3s ease;
-}
 .home-button{
     font-family: 'Playfair Display', serif;
     font-size: 1.5rem;
     font-weight: 10000;
+    overflow: hidden;
     transition: all 0.3s ease;
-
+    position: relative;
+    color:white;
 }
-
+.hidden{
+    visibility: hidden;
+}
+.site-font-home{
+    font-family: 'PT Serif', serif;
+    font-size: 4rem;
+}
+.site-font-base{
+    font-family: 'PT Serif', serif;
+    font-size: 2rem;
+}
 
