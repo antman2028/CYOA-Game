@@ -19,7 +19,7 @@ const StaggeredText = ({text, size}) => {
     };
 
     return (
-        <motion.h1 className={`${sizeClass}`} variants={containerVariants} initial="hidden" animate="visible">
+        <motion.h1 className={`${sizeClass} glow`} variants={containerVariants} initial="hidden" animate="visible">
             {characters.map((char, index) => (
                 <motion.span key={index} variants={childVariants}>
                     {char}

@@ -25,7 +25,9 @@ export default function TitlePage({onGameStart}) {
             <div className="bg-[#0d0d0d] z-11 flex items-center justify-center w-full h-screen ">
                 <div className="fixed  z-1   flex justify-center items-center">
                     <div className="justify-items-stretch items-center">
-                        <StaggeredText size="large" text="Choose your own story"/>
+                        <div className={"p-3"}>
+                            <StaggeredText id="thing" size="large" text="Choose your own story"/>
+                        </div>
                         <motion.div
                             initial={{width: 0}}
                             animate={{width: "100%"}}
