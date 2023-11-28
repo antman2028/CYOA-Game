@@ -1,7 +1,7 @@
 'use client';
 import GameScreen from "@/components/GameScreen";
 import {useState} from "react";
-import TitlePage from "@/animatedComponents/TitlePage";
+import TitlePage from "@/components/TitlePage";
 import process from "next/dist/build/webpack/loaders/resolve-url-loader/lib/postcss";
 
 

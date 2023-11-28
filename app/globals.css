@@ -60,7 +60,10 @@ body {
     font-family: 'PT Serif', serif;
     font-size: 2rem;
 }
-
+.site-font-sm{
+    font-family: 'PT Serif', serif;
+    font-size: 1.5rem;
+}
 .glow{
     text-shadow:
             0 0 2px #fff,
@@ -69,6 +72,21 @@ body {
     transition: all 0.3s ease;
 }
 
-#thing{
-    padding-right: 10px;
+
+.scroll-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+
 }
+
+.scroll-text {
+    border: red;
+    border-style: solid;
+    min-width:75vh;
+    max-width:80vh
+}
+
