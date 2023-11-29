@@ -3,6 +3,7 @@ import {motion} from "framer-motion";
 import {useState, useEffect} from "react";
 import StaggeredText from "@/components/StaggeredText";
 import generateStory from "@/utils/generateStory";
+import Game from "@/components/Game";
 
 export default function GameScreen() {
 
@@ -48,6 +49,7 @@ export default function GameScreen() {
                     {data.map((item) => (
                         <StaggeredText key={item.id} className="point-font" speed="fast" size="small" text= {item.text} />
                     ))}
+                    <Game/>
                 </div>
 
             </div>
