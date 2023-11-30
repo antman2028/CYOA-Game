@@ -59,6 +59,7 @@ body {
 .site-font-base{
     font-family: 'PT Serif', serif;
     font-size: 2rem;
+    padding-right: 3px;
 }
 .site-font-sm{
     font-family: 'PT Serif', serif;

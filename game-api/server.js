@@ -3,10 +3,17 @@ const axios = require('axios');
 const app = express();
 const dotenv = require('dotenv')
 const {getSetting, numValidChoices} = require('./utilModule');
+const cors = require('cors');
 const url = 'https://api.openai.com/v1/chat/completions';
 
 dotenv.config();
 app.use(express.json());
+
+const corsOptions = {
+    origin: 'http://localhost:3000',
+}
+app.use(cors(corsOptions));
+
 
 app.listen(3001, () => {
     console.log("Server is running on port 3000");
@@ -28,8 +35,7 @@ app.post('/CYOA-api', async (req, res) => {
                     messages: [{
                         role: "system",
                         content: `You are a storyteller that creates a choose your own adventure story with no definite end in ${setting}.` +
-                            "For every chunk of the story you write, you will produce 4 choices listed 1 to 4 for the player to choose from." +
-                            "One choice will immediately kill the player and end the game" +
+                            "For every chunk of the story you write, you will produce choices listed 1 to 4 for the player to choose from (no subchoices)." +
                             "You will be given a choice to either continue the story or end it."
                     }],
                     model: 'gpt-3.5-turbo',
@@ -44,9 +50,9 @@ app.post('/CYOA-api', async (req, res) => {
             const decoder = new TextDecoder("utf-8");
             let buffer = "";
 
-            while (true){
+            while (true) {
                 const {done, value} = await reader.read();
-                if (done){
+                if (done) {
                     break;
                 }
                 buffer += decoder.decode(value, {stream: true});
@@ -66,8 +72,8 @@ app.post('/CYOA-api', async (req, res) => {
                             const parsedLine = JSON.parse(cleanedLine);
                             console.log("Parsed Line:", parsedLine); // Debugging: Log the parsed object
 
-                            const { choices } = parsedLine;
-                            const { delta } = choices[0];
+                            const {choices} = parsedLine;
+                            const {delta} = choices[0];
 
                             if (delta && delta.content) {
                                 res.write(delta.content)
@@ -98,7 +104,7 @@ app.post('/CYOA-api', async (req, res) => {
                     messages: [
                         {
                             role: "system",
-                            content: `This is the story so far: ${storyContext.data[0].context}, create the next part of the story along with 4 choices, ${numValidChoice} of which will result in the player\'s death.`
+                            content: `This is the story so far: ${storyContext.data[0].context}, create the next part of the story along with 4 choices, ${numValidChoice} of which will immediately result in the player\'s death.`
                         },
                         {role: "user", content: storyContext.data[0].input}
                     ],
@@ -111,9 +117,9 @@ app.post('/CYOA-api', async (req, res) => {
             const decoder = new TextDecoder("utf-8");
             let buffer = "";
 
-            while (true){
+            while (true) {
                 const {done, value} = await reader1.read();
-                if (done){
+                if (done) {
                     break;
                 }
                 buffer += decoder.decode(value, {stream: true});
@@ -132,8 +138,8 @@ app.post('/CYOA-api', async (req, res) => {
                             const parsedLine = JSON.parse(cleanedLine);
                             console.log("Parsed Line:", parsedLine); // Debugging: Log the parsed object
 
-                            const { choices } = parsedLine;
-                            const { delta } = choices[0];
+                            const {choices} = parsedLine;
+                            const {delta} = choices[0];
 
                             if (delta && delta.content) {
                                 res.write(delta.content)
@@ -151,5 +157,5 @@ app.post('/CYOA-api', async (req, res) => {
             res.status(500).json({message: "Server Error"});
         }
     }
-});
+}); 
 
