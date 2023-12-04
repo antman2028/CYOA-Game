@@ -35,8 +35,7 @@ app.post('/CYOA-api', async (req, res) => {
                     messages: [{
                         role: "system",
                         content: `You are a storyteller that creates a choose your own adventure story with no definite end in ${setting}.` +
-                            "For every chunk of the story you write, you will produce choices listed 1 to 4 for the player to choose from (no subchoices)." +
-                            "You will be given a choice to either continue the story or end it."
+                            "For every chunk of the story you write, you will ALWAYS produce FOUR choices listed 1 to 4 for the player to choose from (no sub-choices), Choices should be formatted `1. 'choice'` on a separate line each"
                     }],
                     model: 'gpt-3.5-turbo',
                     stream: true,
@@ -104,9 +103,10 @@ app.post('/CYOA-api', async (req, res) => {
                     messages: [
                         {
                             role: "system",
-                            content: `This is the story so far: ${storyContext.data[0].context}, create the next part of the story along with 4 choices, ${numValidChoice} of which will immediately result in the player\'s death.`
+                            content: `This is the story so far: ${storyContext.data[0].context}, create the next chunk of the story based on the user input below of AT MOST 200 words, and create with FOUR CHOICES listed 1 to 4, ${numValidChoice} of which will IMMEDIATELY result in the player\'s death.` +
+                                "Choices should be formatted `1. 'choice'` on a separate line each, separate story chunk and choices by three separation lines, do not create choices if the player dies in the chunk you are writing."
                         },
-                        {role: "user", content: storyContext.data[0].input}
+                        {role: "user", content: `The player decides to ${storyContext.data[0].input}`}
                     ],
                     model: 'gpt-3.5-turbo',
                     stream: true,

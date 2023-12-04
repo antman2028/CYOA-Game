@@ -29,12 +29,11 @@ export default function GameScreen() {
                         }}
                     />
                 </ul>
-                <button onClick={scoreHandler}>Click me</button>
             </div>
             <div className={"w-full h-[10vh]"}></div>
             <div className={"scroll-container"}>
                 <div className={"scroll-text"}>
-                    <Game/>
+                    <Game scoreHandler={scoreHandler}/>
                 </div>
 
             </div>
