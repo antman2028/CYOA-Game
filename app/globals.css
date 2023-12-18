@@ -23,6 +23,7 @@ body {
 }
 
 @import url('https://fonts.googleapis.com/css2?family=PT+Serif:wght@700&family=Playfair+Display:ital,wght@1,500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');
 
 .home-title{
   font-family: 'PT Serif', serif;
@@ -55,15 +56,19 @@ body {
 .site-font-home{
     font-family: 'PT Serif', serif;
     font-size: 4rem;
+    color: #fafaf9
 }
 .site-font-base{
     font-family: 'PT Serif', serif;
     font-size: 2rem;
     padding-right: 3px;
+    color: #fafaf9
 }
 .site-font-sm{
-    font-family: 'PT Serif', serif;
-    font-size: 1.5rem;
+    font-family: 'Popins', sans-serif;
+    font-size: 1.1rem;
+    text-shadow: 3px 4px 7px rgba(81,67,21,0.8);
+    color: #fafaf9
 }
 .glow{
     text-shadow:
@@ -84,25 +89,65 @@ body {
 
 }
 
+@media (max-width: 768px) {
+    .site-font-home{
+        font-family: 'PT Serif', serif;
+        font-size: 2rem;
+    }
+    .site-font-base{
+        font-family: 'PT Serif', serif;
+        font-size: 1.5rem;
+        padding-right: 3px;
+    }
+    .site-font-sm{
+        font-family: 'Popins', sans-serif;
+        font-size: 1.05rem;
+        text-shadow: 3px 4px 7px rgba(0, 0, 0, 0.4);
+    }
+}
+
 .scroll-text {
-    border: red;
+    padding: 10px;
     border-style: solid;
-    min-width:75vh;
+    min-width:75%;
     max-width:80vh
 }
 .grid-container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
     gap: 10px;
+
     padding: 10px;
-    width: 100%;
 }
 
 .grid-item {
+    text-align:left;
     padding: 20px;
-    text-align: center;
     background-color: #232323;
-    border: none;
     cursor: pointer;
-    max-height: 2vw;
+    border-radius: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.button-disabled {
+    opacity: 0.25;
+}
+
+.bar-fade{
+    background-color: rgba(13, 13, 13, 0.58);
+}
+.button-highlighted {
+    border: 2px solid white;
+}
+.end-button{
+    padding: 20px;
+    background-color: #232323;
+    font-family: 'Popins', sans-serif;
+    font-size: 1.05rem;
+    border-radius: 10px;
+    text-align: center;
+}
+.leaderboard {
+    background-color: rgba(35, 35, 35, 0.66);
+    border: white solid;
 }

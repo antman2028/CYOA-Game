@@ -1,13 +1,15 @@
 'use client';
-import {useState, useEffect} from "react";
+import {useState, useEffect, Fragment} from "react";
 import generateStory from "@/utils/generateStory";
 import GameComponent from "@/components/GameComponent";
 import ChoiceComponent from "@/components/ChoiceComponent";
+import LeaderBoardScreen from "@/components/LeaderBoardScreen";
 
-export default function Game({scoreHandler}) {
+export default function Game({scoreHandler, finishHandler}) {
     const [data, setData] = useState([]);
     const [currentGeneration, setCurrentGeneration] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
+    const [hasEnded, setEnded] = useState(false);
+    const [leaderboard, setLeaderboard] = useState(false);
 
     const handleChunk = (chunk) => {
         if(Array.isArray(chunk)){
@@ -15,6 +17,10 @@ export default function Game({scoreHandler}) {
         } else {
             setData(prevData => [...prevData, {id: prevData.length, text: chunk, choices:[]}]);
             setCurrentGeneration(prevGen => prevGen + chunk);
+            if (chunk.includes("[The End]")) {
+                console.log("The End");
+                setEnded(true);
+            }
         }
     };
 
@@ -24,26 +30,20 @@ export default function Game({scoreHandler}) {
     }
 
     const fetchMoreStory = (input) => {
-        setIsLoading(true);
         console.log("Fetching more story");
-
 
         if (currentGeneration === "") {
             generateStory([], handleChunk)
-                .then(() => setIsLoading(false))
                 .catch(err => {
                     console.error("Error fetching more story:", err);
-                    setIsLoading(false);
+
                 });
         } else {
             setCurrentGeneration('')
             generateStory([{"context": currentGeneration, "input": input}], handleChunk)
-                .then(() => {
-                    setIsLoading(false)
-                })
                 .catch(err => {
                     console.error("Error fetching more story:", err);
-                    setIsLoading(false);
+
                 });
         }
 
@@ -55,20 +55,36 @@ export default function Game({scoreHandler}) {
 
     return (
         <div>
-            <h1>Info:</h1>
             <div className={"flex flex-wrap"}>
-                {data.map((item, index) => {
+                <GameComponent  text={"This is a  idsahf idosaf hdoias fdoisafaois faosi fdsioaf oias foid safiodsh afoi hdasf dssfdsafd as asdfasdfasfda sdsa fdfdfd df sds sds sd"}/>
+                <div className={"mr-96"}/>
+                <ChoiceComponent choices={["None ashfdosahfdoisaf hoi sadhfioasf iodash fdosia fsioa fodsa hfo sadfhdiosahfdsioafh dosaf hdsaf  asfhid fhdso fosa dfoashiois afoisa hfois afoai sdfo iashoi fasd", "None", "None", "None", "None"]} selectionHandler={selectionHandler}/>
+                {data.map((item) => {
                     if(item.text){
                         return(
-                            <GameComponent key={index} text={item.text}/>
+                            <GameComponent key={`game-${item.id}`} text={item.text}/>
                         )
                     } else {
                         return(
-                            <ChoiceComponent key={index} choices={item.choices} selectionHandler={selectionHandler}/>
-                        )
+                            <Fragment key={`choice-${item.id}`}>
+                                <div className={"mr-96"}/>
+                                <ChoiceComponent key={item.id} choices={item.choices} selectionHandler={selectionHandler}/>
+                            </Fragment>
+                    )
                     }
                 })}
             </div>
+            {!hasEnded && (
+                <button className={"end-button"} onClick={() => {
+                    finishHandler()
+
+                }}>
+                    Input Score :)
+                </button>
+            )}
+            {!leaderboard && (
+                <LeaderBoardScreen/>
+            )}
         </div>
     );
 }

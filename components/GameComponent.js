@@ -7,7 +7,7 @@ const GameComponent = ({text}) => {
         <div>
             <motion.h2
                 className={`${"site-font-base"} glow pr-2`}
-                initial={{y: 100, opacity: 0}}
+                initial={{y: 20, opacity: 0}}
                 animate={{y: 0, opacity: 1}}
                 transition={{duration: 0.5}}
             >
