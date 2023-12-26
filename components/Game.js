@@ -1,15 +1,17 @@
 'use client';
-import {useState, useEffect, Fragment} from "react";
+import {useState, useEffect, Fragment, useRef} from "react";
 import generateStory from "@/utils/generateStory";
 import GameComponent from "@/components/GameComponent";
 import ChoiceComponent from "@/components/ChoiceComponent";
-import LeaderBoardScreen from "@/components/LeaderBoardScreen";
+import submitScore from "@/utils/submitScore";
+import StaggeredText from "@/components/StaggeredText";
 
 export default function Game({scoreHandler, finishHandler}) {
     const [data, setData] = useState([]);
     const [currentGeneration, setCurrentGeneration] = useState('');
     const [hasEnded, setEnded] = useState(false);
-    const [leaderboard, setLeaderboard] = useState(false);
+    const nameValue = useRef(null);
+    const [score, setScore] = useState(0);
 
     const handleChunk = (chunk) => {
         if(Array.isArray(chunk)){
@@ -18,19 +20,18 @@ export default function Game({scoreHandler, finishHandler}) {
             setData(prevData => [...prevData, {id: prevData.length, text: chunk, choices:[]}]);
             setCurrentGeneration(prevGen => prevGen + chunk);
             if (chunk.includes("[The End]")) {
-                console.log("The End");
                 setEnded(true);
             }
         }
     };
 
     const selectionHandler = (choice) => {
+        setScore(score + 1);
         scoreHandler();
         fetchMoreStory(choice);
     }
 
     const fetchMoreStory = (input) => {
-        console.log("Fetching more story");
 
         if (currentGeneration === "") {
             generateStory([], handleChunk)
@@ -56,9 +57,6 @@ export default function Game({scoreHandler, finishHandler}) {
     return (
         <div>
             <div className={"flex flex-wrap"}>
-                <GameComponent  text={"This is a  idsahf idosaf hdoias fdoisafaois faosi fdsioaf oias foid safiodsh afoi hdasf dssfdsafd as asdfasdfasfda sdsa fdfdfd df sds sds sd"}/>
-                <div className={"mr-96"}/>
-                <ChoiceComponent choices={["None ashfdosahfdoisaf hoi sadhfioasf iodash fdosia fsioa fodsa hfo sadfhdiosahfdsioafh dosaf hdsaf  asfhid fhdso fosa dfoashiois afoisa hfois afoai sdfo iashoi fasd", "None", "None", "None", "None"]} selectionHandler={selectionHandler}/>
                 {data.map((item) => {
                     if(item.text){
                         return(
@@ -74,16 +72,17 @@ export default function Game({scoreHandler, finishHandler}) {
                     }
                 })}
             </div>
-            {!hasEnded && (
-                <button className={"end-button"} onClick={() => {
-                    finishHandler()
-
-                }}>
-                    Input Score :)
-                </button>
-            )}
-            {!leaderboard && (
-                <LeaderBoardScreen/>
+            {hasEnded && (
+                <>
+                    <StaggeredText className="point-font" size="medium" text={"Thank you for playing"}/>
+                    <input className={"text-black p-4 t"} ref={nameValue} type="text" placeholder={"your-name"} maxLength={"10"} />
+                    <button className={"end-button"} onClick={() => {
+                        finishHandler()
+                        submitScore(nameValue.current.value, score)
+                    }}>
+                        Submit Score :)
+                    </button>
+                </>
             )}
         </div>
     );

@@ -134,7 +134,7 @@ body {
 }
 
 .bar-fade{
-    background-color: rgba(13, 13, 13, 0.58);
+    background-color: rgba(13, 13, 13, 0.75);
 }
 .button-highlighted {
     border: 2px solid white;

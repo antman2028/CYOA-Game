@@ -1,6 +1,6 @@
 
 export default async function generateStory(data, chunkHandler) {
-    console.log(data);
+
     const res = await fetch('http://localhost:3001/CYOA-api', {
         method: 'POST',
         headers: {
@@ -10,7 +10,7 @@ export default async function generateStory(data, chunkHandler) {
     });
     const reader = res.body.getReader();
     const decoder = new TextDecoder("utf-8");
-    const regexPattern = /\d+[.:)].+\n/g;
+    const regexPattern = /\d+[.:)].+\n/g
     let isChoice = false;
     let choices = ""
 
@@ -21,7 +21,7 @@ export default async function generateStory(data, chunkHandler) {
         }
         const chunk = decoder.decode(value, {stream: true});
         const rp = /\d[.:)]/
-        if (chunk.includes("\n\n")) {
+        if (chunk.includes("[")) {
             isChoice = true;
         }
         if (!isChoice) {

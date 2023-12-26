@@ -35,15 +35,13 @@ app.post('/CYOA-api', async (req, res) => {
                     messages: [{
                         role: "system",
                         content: `You are a storyteller that creates a choose your own adventure story with no definite end in ${setting}.` +
-                            "For every chunk of the story you write, you will ALWAYS produce FOUR choices listed 1 to 4 for the player to choose from (no sub-choices), Choices should be formatted `1. 'choice'` on a separate line each"
+                            "Do the following, 1. Generate a chunk of story\n 2.Place the phrase '[CHOICES]' after the previous chunk 3. Generate FOUR choices listed 1 to 4 for the player to choose from (no sub-choices), Choices should be formatted `1. 'choice'` on a separate line each."
                     }],
                     model: 'gpt-3.5-turbo',
                     stream: true,
                 }),
             });
 
-            // const data = await openAiRes.json();
-            // res.json(data);
 
             const reader = openAiRes.body.getReader();
             const decoder = new TextDecoder("utf-8");
@@ -62,14 +60,10 @@ app.post('/CYOA-api', async (req, res) => {
                     buffer = buffer.slice(newlineIndex + 1);
 
                     if (line.length !== 0 && !line.includes("[DONE]")) {
-                        console.log("Line:", line); // Debugging: Log the raw line
                         const cleanedLine = line.replace(/^data: /, "").trim();
-
-                        console.log("Raw Line:", cleanedLine); // Debugging: Log the raw line
 
                         try {
                             const parsedLine = JSON.parse(cleanedLine);
-                            console.log("Parsed Line:", parsedLine); // Debugging: Log the parsed object
 
                             const {choices} = parsedLine;
                             const {delta} = choices[0];
@@ -103,8 +97,8 @@ app.post('/CYOA-api', async (req, res) => {
                     messages: [
                         {
                             role: "system",
-                            content: `This is the story so far: ${storyContext.data[0].context}, create the next chunk of the story based on the user input below of AT MOST 200 words, and create with FOUR CHOICES listed 1 to 4, ${numValidChoice} of which will IMMEDIATELY result in the player\'s death.` +
-                                "Choices should be formatted `1. 'choice'` on a separate line each, separate story chunk and choices by three separation lines, do not create choices if the player dies in the chunk you are writing."
+                            content: `This is the story so far: ${storyContext.data[0].context}, do each of the following steps\n 1. create the next brief chunk of the story based on the user input\n 2. place the phrase '[CHOICES]' after the story chunk\n 3. Generate FOUR CHOICES listed 1 to 4 based on the story chunk, ${numValidChoice} of which will IMMEDIATELY result in the player\'s death.` +
+                                "Choices should be formatted `1. 'choice'` on a separate line each."
                         },
                         {role: "user", content: `The player decides to ${storyContext.data[0].input}`}
                     ],
@@ -132,11 +126,8 @@ app.post('/CYOA-api', async (req, res) => {
                     if (line.length !== 0 && !line.includes("[DONE]")) {
                         const cleanedLine = line.replace(/^data: /, "").trim();
 
-                        console.log("Raw Line:", cleanedLine); // Debugging: Log the raw line
-
                         try {
                             const parsedLine = JSON.parse(cleanedLine);
-                            console.log("Parsed Line:", parsedLine); // Debugging: Log the parsed object
 
                             const {choices} = parsedLine;
                             const {delta} = choices[0];

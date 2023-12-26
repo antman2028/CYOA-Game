@@ -16,7 +16,7 @@ const ChoiceComponent = ({choices, selectionHandler}) => {
                     <div className={"mr-96"}></div>
                     <div className={"grid-container"}>
                         {choices.map((choice, index) => {
-                            if (nums > 3) {
+                            if (nums > 4) {
                                 return;
                             } else {
                                 nums++;
@@ -27,7 +27,6 @@ const ChoiceComponent = ({choices, selectionHandler}) => {
                                 disabled={disabled}
                                 className={`grid-item ${disabled ? 'button-disabled' : ''} ${clickedButton === index ? 'button-highlighted' : ''}`}
                                 onClick={() => {
-                                    console.log("Choice:", choice);
                                     selectionHandler(choice);
                                     setDisabled(true);
                                     setClickedButton(index);
