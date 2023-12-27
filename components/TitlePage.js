@@ -1,6 +1,6 @@
 'use strict';
 import {motion} from "framer-motion";
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import StaggeredText from "@/components/StaggeredText";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 
@@ -12,6 +12,7 @@ export default function TitlePage({onGameStart}) {
         setDisappear(true);
         onGameStart();
     }
+
 
     return (
         <motion.div

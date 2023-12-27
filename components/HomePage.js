@@ -12,8 +12,8 @@ export default function HomePage() {
         <div>
             <DynamicComponentWithNoSSR/>
             <div className="hidden">
-                <h1 className="home-title font-bold">Choose your story</h1>
-
+                <h1 className="home-title font-bold">Choose your own story game powered by OpenAIs GPT 3.5 model</h1>
+                <p>The stories are endless here.</p>
                 <button className="home-button">
                     Start
                 </button>

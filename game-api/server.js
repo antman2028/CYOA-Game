@@ -1,5 +1,4 @@
 const express = require('express');
-const axios = require('axios');
 const app = express();
 const dotenv = require('dotenv')
 const {getSetting, numValidChoices} = require('./utilModule');
@@ -14,9 +13,9 @@ const corsOptions = {
 }
 app.use(cors(corsOptions));
 
-
-app.listen(3001, () => {
-    console.log("Server is running on port 3000");
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
 });
 
 app.post('/CYOA-api', async (req, res) => {
