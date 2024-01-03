@@ -1,7 +1,7 @@
 
 export default async function generateStory(data, chunkHandler) {
 
-    const res = await fetch('http://34.230.72.11:8080/CYOA-api', {
+    const res = await fetch('https://tonicodefolio.com:443/CYOA-api', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

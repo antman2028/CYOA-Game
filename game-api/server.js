@@ -1,15 +1,18 @@
 const express = require('express');
 const app = express();
 const dotenv = require('dotenv')
+const {OpenAI} = require('openai')
+
 const {getSetting, numValidChoices} = require('./utilModule');
 const cors = require('cors');
 const url = 'https://api.openai.com/v1/chat/completions';
 
 dotenv.config();
 app.use(express.json());
+const openai = new OpenAI(process.env.OPENAI_API_KEY);
 
 const corsOptions = {
-    origin: 'http://localhost:3000',
+    origin: true,
 }
 app.use(cors(corsOptions));
 
@@ -24,6 +27,7 @@ app.post('/CYOA-api', async (req, res) => {
         try {
             console.log("Starting new story");
             const setting = getSetting();
+
             const openAiRes = await fetch(url, {
                 method: 'POST',
                 headers: {
@@ -41,6 +45,18 @@ app.post('/CYOA-api', async (req, res) => {
                 }),
             });
 
+            for await (const chunk of stream) {
+                const {choices} = chunk;
+                const {delta} = choices[0];
+
+
+                if (delta && delta.content) {
+                    res.write(delta.content)
+                }
+                else{
+                    res.end()
+                }
+            }
 
             const reader = openAiRes.body.getReader();
             const decoder = new TextDecoder("utf-8");
